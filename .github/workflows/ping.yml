@@ -11,6 +11,6 @@ jobs:
     steps:
       - name: Hit endpoints
         run: |
-          curl -s https://buggy-app.onrender.com/
-          curl -s https://buggy-app.onrender.com/sometimes-fails
-          curl -s https://buggy-app.onrender.com/auth
+          curl -s https://buggy-app-2v0l.onrender.com/
+          curl -s https://buggy-app-2v0l.onrender.com/sometimes-fails
+          curl -s https://buggy-app-2v0l.onrender.com/auth
