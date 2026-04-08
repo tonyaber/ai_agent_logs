@@ -1,27 +1,35 @@
 import re
 
 LOG_PATTERN = re.compile(
-    r'(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) '
+    r'(?P<timestamp>\d{4}-\d{2}-\d{2} '
+    r'\d{2}:\d{2}:\d{2},\d{3}) '
     r'(?P<level>INFO|WARNING|ERROR) '
     r'(?P<message>.+)'
 )
 
 def parse_logs(lines):
-    parsed = []
+    return lines
+    # code for parsing logs
+    # parsed = []
 
-    for line in lines:
-        match = LOG_PATTERN.match(line)
-        if match:
-            data = match.groupdict()
+    # for line in lines:
+    #     print(line)
+    #     match = LOG_PATTERN.match(line)
+    #     print(match)
+    #     if not match:
+    #         continue
 
-            # normalize to "status-like" semantics
-            if data["level"] == "ERROR":
-                data["status"] = 500
-            elif data["level"] == "WARNING":
-                data["status"] = 400
-            else:
-                data["status"] = 200
+    #     data = match.groupdict()
 
-            parsed.append(data)
+    #     # Map log level to status-like severity
+    #     if data["level"] == "ERROR":
+    #         data["status"] = 500
+    #     elif data["level"] == "WARNING":
+    #         data["status"] = 400
+    #     else:
+    #         data["status"] = 200
 
-    return parsed
+    #     parsed.append(data)
+
+    # return parsed
+

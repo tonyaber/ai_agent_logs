@@ -4,31 +4,41 @@ import time
 
 client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
-MODELS = ["models/gemini-2.5-flash", "models/gemini-2.5-pro"]
+MODELS = ["models/gemini-2.0-flash", "models/gemini-2.5-pro"]
 
 
 def analyze_logs_ai(parsed_logs: list) -> str:
     
-    total_requests = len(parsed_logs)
-    server_errors = len([l for l in parsed_logs if l["status"] >= 500])
-    client_errors = len([l for l in parsed_logs if 400 <= l["status"] < 500])
-
+    error_logs = [
+        f"[{l['timestamp']}] {l['level']} {l['message']}"
+        for l in parsed_logs
+        if l["status"] >= 400
+    ]
+    print("error_logs: ", error_logs)
     prompt = f"""
-    You are a senior backend engineer.
+        You are a senior backend and SRE engineer.
 
-    Analyze the following server log statistics and produce
-    a concise weekly infrastructure health report.
+        You are analyzing real production application logs.
 
-    Statistics:
-    - Total requests: {total_requests}
-    - Server errors (5xx): {server_errors}
-    - Client errors (4xx): {client_errors}
+        Below is a list of log entries containing warnings and errors.
+        Each entry includes a timestamp, severity level, and message.
 
-    Provide:
-    1. Critical issues
-    2. Root causes
-    3. Anomalies
-    4. Actionable recommendations
+        Logs:
+        {"\n".join(error_logs)}
+
+        Your task:
+        1. Identify recurring error patterns or themes.
+        2. Group similar errors together and explain what they indicate.
+        3. Infer likely root causes based on the log messages.
+        4. Detect possible security or stability risks.
+        5. Assess the overall severity and urgency of the issues.
+        6. Provide clear, actionable technical recommendations to improve system reliability.
+
+        Important:
+        - Base your analysis only on the log messages above.
+        - Do not assume missing context.
+        - Focus on engineering and operational insights.
+        - Keep the response concise, structured, and production-oriented.
     """
 
     for model in MODELS:
@@ -46,6 +56,6 @@ def analyze_logs_ai(parsed_logs: list) -> str:
                     time.sleep(1.5 * (attempt + 1))  # backoff
                     continue
                 break
-        
+    
     return "AI temporarily unavailable"
 
