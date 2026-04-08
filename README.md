@@ -69,34 +69,18 @@ The core background service that:
 ---
 
 
-## 🧪 Example AI‑Generated Insights
-Frequent server errors (5xx) were detected on the /sometimes-fails endpoint,
-indicating instability in backend dependencies.
-Repeated unauthorized access attempts on /auth suggest missing authentication
-guards or external probing.
-Occasional latency spikes indicate blocking operations during request handling.
-Recommendation:
-Stabilize error-prone endpoints, add proper authentication middleware, and
-instrument latency monitoring.
----
-
 ## 📧 Example Email Report
 
 - Weekly system health summary  
 - Error and anomaly detection  
 - AI‑generated root cause analysis  
 - Actionable technical recommendations  
-- Delivered as a PDF attachment  
+- Delivered as a PDF attachment
 
----
-
-
-## 📄 Example Health Report
 
 A sample weekly PDF report can be downloaded here:
 
 ▶️ [https://docs/images/weekly_report_2026-04-08.png](https://github.com/tonyaber/ai_agent_logs/blob/main/docs/reports/weekly_report_2026-04-08.pdf)
-
 
 ---
 
