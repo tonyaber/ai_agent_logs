@@ -1,20 +1,27 @@
 import re
-from datetime import datetime
 
 LOG_PATTERN = re.compile(
-    r'(?P<ip>\S+) - - \[(?P<dt>.*?)\] "(?P<method>\S+) (?P<path>\S+)'
-    r' HTTP/\d\.\d" (?P<status>\d{3}) (?P<bytes>\d+)'
+    r'(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) '
+    r'(?P<level>INFO|WARNING|ERROR) '
+    r'(?P<message>.+)'
 )
 
-def parse_logs(logs):
+def parse_logs(lines):
     parsed = []
 
-    for line in logs:
-        match = LOG_PATTERN.search(line)
+    for line in lines:
+        match = LOG_PATTERN.match(line)
         if match:
             data = match.groupdict()
-            data["status"] = int(data["status"])
-            data["bytes"] = int(data["bytes"])
+
+            # normalize to "status-like" semantics
+            if data["level"] == "ERROR":
+                data["status"] = 500
+            elif data["level"] == "WARNING":
+                data["status"] = 400
+            else:
+                data["status"] = 200
+
             parsed.append(data)
 
     return parsed
