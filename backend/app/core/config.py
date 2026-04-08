@@ -7,7 +7,7 @@ env_path = Path(__file__).resolve().parents[2] / ".env"
 load_dotenv(dotenv_path=env_path)
 
 class Settings:
-    LOG_PATH = "logs/server.log"
+    LOG_PATH = "https://buggy-app-2v0l.onrender.com/internal/logs"
     REPORTS_DIR = "reports/"
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
     SMTP_HOST = os.getenv("SMTP_HOST")

@@ -1,8 +1,11 @@
+import requests
 from app.core.config import settings
 
+
 def read_logs():
-    try:
-        with open(settings.LOG_PATH, "r") as f:
-            return f.readlines()
-    except FileNotFoundError:
-        return []
+    """
+    Fetch logs from buggy_app via HTTP.
+    """
+    response = requests.get(settings.LOG_PATH, timeout=10)
+    response.raise_for_status()
+    return response.text.splitlines()
