@@ -4,8 +4,14 @@ import time
 
 client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
-MODELS = ["models/gemini-2.0-flash", "models/gemini-2.5-pro"]
-
+MODELS = ["models/gemma-3-1b-it", "models/gemini-2.5-pro"]
+# ✅ models/gemini-flash-latest
+# ✅ models/gemini-flash-lite-latest
+# ✅ models/gemini-2.0-flash
+# ✅ models/gemini-2.0-flash-lite
+# ✅ models/gemini-2.5-flash
+# ✅ models/gemini-2.5-pro
+# ✅ Gemma (models/gemma-3-1b-it, gemma-3-4b-it, …)
 
 def analyze_logs_ai(parsed_logs: list) -> str:
     
