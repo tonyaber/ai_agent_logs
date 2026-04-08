@@ -1,12 +1,17 @@
 import smtplib
+import ssl
 from email.message import EmailMessage
 from app.core.config import settings
 import os
 
+
 def send_report_email(pdf_path: str):
-    """
-    Sends the weekly health report via email.
-    """
+    if not settings.SMTP_HOST:
+        raise RuntimeError("SMTP_HOST is not set")
+    if not settings.SMTP_USER:
+        raise RuntimeError("SMTP_USER is not set")
+    if not settings.SMTP_PASSWORD:
+        raise RuntimeError("SMTP_PASSWORD is not set")
 
     msg = EmailMessage()
     msg["Subject"] = "Weekly Server Health Report"
@@ -28,7 +33,9 @@ def send_report_email(pdf_path: str):
             filename=os.path.basename(pdf_path),
         )
 
-    with smtplib.SMTP(settings.SMTP_HOST, settings.SMTP_PORT) as server:
-        server.starttls()
+    context = ssl.create_default_context()
+
+    # ✅ THIS IS THE IMPORTANT PART
+    with smtplib.SMTP_SSL(settings.SMTP_HOST, 465, context=context) as server:
         server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
         server.send_message(msg)
